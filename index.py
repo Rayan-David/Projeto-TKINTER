@@ -1,20 +1,49 @@
 from tkinter import *
-from tkinter import messagebox
 from tkinter import ttk
+from tkinter import messagebox
+
 
 janela = Tk()
 janela.title("Cadastro de Pacientes")
-janela.geometry("700x500")
+janela.geometry("1200x500")
 
 abas = ttk.Notebook(janela)
 abas.pack(fill="both", expand=True)
 
+#aba1 - Cadastro
 aba1 = Frame(abas)
 abas.add(aba1, text="Cadastro")
 
+#aba2 - Tabela
 aba2 = Frame(abas)
 abas.add(aba2, text="Lista de Pacientes")
 
+#Função Cadastrar 
+
+def cadastrar():
+    nome = entry_nome.get()
+    cpf = entry_cpf.get()
+    data_nasc = entry_data_nasc.get()
+    telefone = entry_telefone.get()
+    email = entry_email.get()
+    convenio = entry_convenio.get()
+    contato_emergencia = entry_contato_emergencia.get()
+    
+    if nome == "" or  cpf == "" or data_nasc == "" or telefone == "" or convenio == "" or email == "" or contato_emergencia == "":
+        messagebox.showwarning("Erro", "Preencha todos os campos!")
+    else:
+        tabela.insert("", END, values=(nome, cpf, data_nasc, telefone, email, convenio, contato_emergencia))
+        entry_nome.delete(0, END)
+        entry_cpf.delete(0, END)
+        entry_data_nasc.delete(0, END)
+        entry_telefone.delete(0, END)
+        entry_email.delete(0, END)
+        entry_convenio.delete(0, END)
+        entry_contato_emergencia.delete(0, END)
+        
+        messagebox.showwarning("Sucesso", "Cliente cadastrado")
+
+### Aba cadastro
 Label(aba1, text="Nome Completo").pack(pady=5)
 entry_nome = Entry(aba1, width=40)
 entry_nome.pack()
@@ -49,9 +78,11 @@ Button(
     bg="blue",
     fg="white",
     width=20,
+    command=cadastrar
 ).pack(pady=20)
 
-colunas = ("Nome", "CPF", "Data de Nascimento", "Telefone", "Email", "Convênio/SUS", "Contato de Emergência")
+####aba tabela
+colunas = ("Nome Completo", "CPF", "Data de Nascimento", "Telefone", "Email", "Convênio/SUS", "Contato de Emergência")
 
 tabela = ttk.Treeview(
     aba2,
